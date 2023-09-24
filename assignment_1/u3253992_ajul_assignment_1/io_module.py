@@ -9,12 +9,17 @@ def read_multi_dim_data(filename):
     ##from tutorial
     f = None
     try:
+        # open the file in read mode
         f = open(filename, 'r')
         while True:
+            # read each line and store it to varaible line
             line = f.readline()
+            
+            # if length of line is zero, i.e end of file, break out of the loop
             if len(line) == 0: #end of file
                 break
             
+            # replace the new line character from the data that's read from file
             line = line.replace('\n', '') #remove end of line \n character
             
             #use split function to separate x & y strings then
@@ -33,7 +38,7 @@ def read_multi_dim_data(filename):
         print(ex.args)
     finally:
         if f:
-            f.close()
+            f.close() # close the file
 
     return dataset
 
@@ -41,11 +46,18 @@ def read_multi_dim_data(filename):
 def write_list_to_file(file_path, data_list):
     f = None
     try:
+        # open file in write mode
         f = open(file_path, 'w')
+        
+        # each item in list
         for item in data_list:
+            # write to file
             f.write(item)
+            
+    # capture the exception, if any
     except Exception as ex:
+        # print exception
         print(ex.args)
     finally:
         if f:
-            f.close()
+            f.close() # close file

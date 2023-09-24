@@ -43,9 +43,12 @@ clustered_data = []
 # important for multidimensional data
 xi = tk.IntVar()
 xi.set(0)
+
+
 yi = tk.IntVar()
 yi.set(1)
 
+# dimension list to select from
 xi_list = [0, 1]
 yi_list = [0, 1]
 
@@ -73,16 +76,31 @@ def selectItem():
    global yi
    # checks if both user inputs are available
    if(cluster_size.get() and dimension.get()):
+       # creates file name from user inputs
        file_selected = f'datasets/data_{cluster_size.get()}c_{dimension.get()}d.txt'
+       
+       # updates the text in selected file tkinter label
        selected_file.config(text=file_selected)
-       # do something
+       
+       # update the corordinates dropdown list
        xi_list = [x for x in range(dimension.get())]
        yi_list = [y for y in range(dimension.get())]
+       
+       # clear the current drop down menu options
        xi_choose['menu'].delete(0, 'end')
        yi_choose['menu'].delete(0, 'end')
+       
+       # for each item in updated list
        for i in xi_list:
+           # update the x co-rdinate options
+           # reference: chatGPT AI
            xi_choose['menu'].add_command(label=i, command=lambda value=i: xi.set(value))
+           
+           # update the y-cordinate options
+           # reference: chatGPT AI
            yi_choose['menu'].add_command(label=i, command=lambda value=i: yi.set(value))
+           
+       # set initial values as selected options
        xi.set(xi_list[0])
        yi.set(yi_list[1])
 ## end of function
@@ -126,7 +144,7 @@ selected_file = tk.Label(master=left_frame, text="", fg="navy", anchor="w", widt
 selected_file.place(x=10, y=160)
 
 
-## if higher dimension data, choose dimensions to plot
+## choose dimensions to plot, drop-down menu to choose coordinates to plot on 2D plane
 lbl_choose_dim = tk.Label(master=left_frame, text="Choose the dimensions to plot:",
                             bg="lightgrey", font=app_font)
 lbl_choose_dim.place(x=10, y=200)
@@ -141,6 +159,7 @@ xi_choose.place(x=40, y=230)
 yi_choose_lbl = tk.Label(master=left_frame, text="y:", bg="lightgrey", font=app_font)
 yi_choose_lbl.place(x=10, y=270)
 
+# dropdown_menus_reference: https://www.geeksforgeeks.org/dropdown-menus-tkinter/
 yi_choose = tk.OptionMenu(left_frame, yi, *yi_list)
 yi_choose.place(x=40, y=270)
 
@@ -153,11 +172,18 @@ button.place(x=10, y=500)
 def handle_click(event):
     global cluster_centers
     global clustered_data
-    if(selected_file and cluster_size and dimension):
+    if(file_selected and cluster_size and dimension):
+        
+        # reads dataset
         read_data = io.read_multi_dim_data(file_selected)
+        
+        # get the cluster centers and list of clustered data 
         (cluster_centers, clustered_data) = cluster.k_means_cluster(cluster_size.get(), read_data)
-        print(cluster_centers)
-        print(clustered_data)   
+        
+        # print(cluster_centers)
+        # print(clustered_data)
+        
+        # plots the results to canves
         plot_results()
         
 # binds the handle click function to run button
@@ -180,8 +206,10 @@ def transform_point(x,y):
 # plot the graph
 def plot_point(x,y, outline="red", fill="red"):
     global canvas
+    
     # radius to plot a point
     r=2
+    
     # transforming each point so that it is visible on the canvas
     (x, y) = transform_point(x, y)
     
@@ -190,9 +218,16 @@ def plot_point(x,y, outline="red", fill="red"):
     
 # draw line between two points
 def draw_line(x1, y1, x2, y2, fill="black"):
+    # refer the global canvas varaiable
     global canvas
+    
+    # transform point1 to be seen on canvas 
     (x1,y1) = transform_point(x1, y1)
+    
+    # tranform point to be seen on canvas
     (x2,y2) = transform_point(x2, y2)
+    
+    # creates a line
     canvas.create_line(x1, y1, x2, y2, fill=fill)
 
 
