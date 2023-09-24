@@ -41,7 +41,7 @@ def find_nearest_neighbour(unknown_sample, data_list):
             shortest_distance = distance
             nearest_point = (x,y)
     print(f'Nearest {nearest_point}')
-    return nearest_point
+    return { nearest_point: nearest_point, distance: shortest_distance }
 #end function
 
 
