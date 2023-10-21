@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Contact Dat Tran dat.tran@canberra.edu.au -->
+    <title>Programming for Data Science (11521)</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            font-family: arial;
+        }
+
+        h3, h4 {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        hr {
+            background-color: grey;
+            height: 1px;
+        }
+
+        label {
+            font-weight: normal;
+        }
+
+        .brown_bold {
+            color: brown;
+            font-weight: bold;
+        }
+
+        .lower {
+            margin-top: 5px;
+        }
+    </style>
+    <script>
+        function set_mark(obj, mark, mark_id) {
+            var e = document.getElementById(mark_id);
+            var curr_mark = parseFloat(e.value, 10);
+            //var input_mark = parseFloat(mark, 10);
+
+            if (obj.checked) {
+                e.value = mark.toFixed(2).toString();
+            } else {
+                e.value = curr_mark.toFixed(2).toString();
+            }
+            get_total_mark();
+        }
+
+        function add_mark(obj, mark, mark_id) {
+            var e = document.getElementById(mark_id);
+            var curr_mark = parseFloat(e.value, 10);
+            //var input_mark = parseFloat(mark, 10);
+
+            if (obj.checked) {
+                e.value = (curr_mark + mark).toFixed(2).toString();
+            } else {
+                e.value = (curr_mark - mark).toFixed(2).toString();
+            }
+            get_total_mark();
+        }
+
+        function mark_all(obj, name) {
+            var all = document.getElementsByName(name);
+            if (obj.checked) {
+                for (var i = 0; i < all.length; i++) {
+                    if (all[i].checked == false)
+                        all[i].click();
+                }
+
+            } else {
+                for (var i = 0; i < all.length; i++) {
+                    if (all[i].checked == true)
+                        all[i].click();
+                }
+            }
+        }
+
+        function get_total_mark() {
+            var ded1 = parseFloat((document.getElementById('ded1')).value, 10);
+            var mrk1 = parseFloat((document.getElementById('mrk1')).value, 10);
+            var mrk2 = parseFloat((document.getElementById('mrk2')).value, 10);
+            var mrk3 = parseFloat((document.getElementById('mrk3')).value, 10);
+            var mrk4 = parseFloat((document.getElementById('mrk4')).value, 10);
+            var mrk5 = parseFloat((document.getElementById('mrk5')).value, 10);
+            var mrk6 = parseFloat((document.getElementById('mrk6')).value, 10);
+            var total = ded1 + mrk1 + mrk2 + mrk3 + mrk4 + mrk5 + mrk6;
+
+            document.getElementById('total_mark').value = total.toFixed(2).toString();
+        }
+
+        function add_mark_item(item, name_id, mark_id, elem_id) {
+            var content =
+                '<input type="checkbox" onclick="mark_all(this, ' + name_id + ')">' +
+                    '<span style="color:brown;">[0.5 mark]</span>' +
+                    item + 
+                '<input type="checkbox" name=' + name_id + ' onclick="add_mark(this, 0.1, ' + mark_id + ')"> ' +
+                '<input type="checkbox" name=' + name_id + ' onclick="add_mark(this, 0.1, ' + mark_id + ')"> ' +
+                '<input type="checkbox" name=' + name_id + ' onclick="add_mark(this, 0.1, ' + mark_id + ')"> ' +
+                '<input type="checkbox" name=' + name_id + ' onclick="add_mark(this, 0.1, ' + mark_id + ')"> ' +
+                '<input type="checkbox" name=' + name_id + ' onclick="add_mark(this, 0.1, ' + mark_id + ')"> ' +
+                    '<input class="brown_bold" placeholder="no comment">'; 
+            document.getElementById(elem_id).innerHTML = content;
+        }
+
+    </script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 style="color: brown;">Programming for Data Science (11521)</h4>
+                <h4 style="color:navy;">Assignment 2 - Marking Rubric</h4>
+                <hr />
+            </div>
+            <div class="col-md-11">
+                <span class="offset-md-1 col-md-2">Student: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                <input class="brown_bold col-md-8" placeholder="id and/or name" />
+            </div>
+            <div class="col-md-11">
+                <span class="offset-md-1 col-md-2">Total mark (out of 20):</span>
+                <input class="brown_bold col-md-8" id="total_mark" type="number" value="0.0" step="0.1" min="0" max="20" />
+            </div>
+            <div class="col-md-11">
+                <span class="offset-md-1 col-md-2">Contact: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                <input class="col-md-8 brown_bold" placeholder="name and email" />
+            </div>
+            <div class="col-md-12">
+                <hr />
+            </div>
+            <div class="col-md-11">
+                <p class="col-md-11">
+                    <input class="brown_bold" id="ded1" type="number" value="0.0" step="0.5" min="-20" max="0" onclick="get_total_mark()" onchange="get_total_mark()" /><b> Late submission (1 mark per day): </b>
+                    <input type="radio" name="late" onclick="set_mark(this, 0.0, 'ded1')"> <label> 0 </label>
+                    <input type="radio" name="late" onclick="set_mark(this, -0.5, 'ded1')"> <label> 0.5 </label>
+                    <input type="radio" name="late" onclick="set_mark(this, -1.0, 'ded1')"> <label> 1 </label>
+                    <input type="radio" name="late" onclick="set_mark(this, -2.0, 'ded1')"> <label> 2 </label>
+                    <input type="radio" name="late" onclick="set_mark(this, -3.0, 'ded1')"> <label> 3 </label>
+                    <input type="radio" name="late" onclick="set_mark(this, -4.0, 'ded1')"> <label> 4 </label>
+                    <input type="radio" name="late" onclick="set_mark(this, -5.0, 'ded1')"> <label> 5 </label>
+                    <input type="radio" name="late" onclick="set_mark(this, -6.0, 'ded1')"> <label> 6 </label>
+                    <input type="radio" name="late" onclick="set_mark(this, -7.0, 'ded1')"> <label> 7 </label>
+                    <input type="radio" name="late" onclick="set_mark(this, -8.0, 'ded1')"> <label> 8 </label>
+                    <input type="radio" name="late" onclick="set_mark(this, -9.0, 'ded1')"> <label> 9 </label>
+                    <input type="radio" name="late" onclick="set_mark(this, -10.0, 'ded1')"> <label> 10 </label>
+                    <input type="radio" name="late" onclick="set_mark(this, -11.0, 'ded1')"> <label> 11 </label>
+                    <input type="radio" name="late" onclick="set_mark(this, -12.0, 'ded1')"> <label> 12 </label>
+                    <input type="radio" name="late" onclick="set_mark(this, -13.0, 'ded1')"> <label> 13 </label>
+                    <input type="radio" name="late" onclick="set_mark(this, -14.0, 'ded1')"> <label> 14 </label>
+                    <input type="radio" name="late" onclick="set_mark(this, -15.0, 'ded1')"> <label> 15</label>
+                    <input type="radio" name="late" onclick="set_mark(this, -16.0, 'ded1')"> <label> 16</label>
+                    <input type="radio" name="late" onclick="set_mark(this, -17.0, 'ded1')"> <label> 17</label>
+                    <input type="radio" name="late" onclick="set_mark(this, -18.0, 'ded1')"> <label> 18</label>
+                    <input type="radio" name="late" onclick="set_mark(this, -19.0, 'ded1')"> <label> 19</label>
+                    <input type="radio" name="late" onclick="set_mark(this, -20.0, 'ded1')"> <label> 20 days</label>
+                </p>
+            </div>
+
+            <div class="col-md-12">
+                <hr />
+            </div>
+
+
+            <div>
+                <div class="col-md-12">
+                    <p>
+                        <span class="brown_bold">
+                            Graphical User Interface (GUI) - Mark (out of 4):
+                        </span>
+                        <input class="brown_bold" id="mrk1" type="number" value="0.0" step="0.1" min="0" max="5" onclick="get_total_mark()" onchange="get_total_mark()" />
+                    </p>
+                </div>
+                <div class="col-md-12">
+                    <span class="col-md-6">
+                        <input type="checkbox" onclick="mark_all(this, 's1')">
+                        <span style="color:brown;">[1.0 mark]</span> User is able to select a dataset for Iris, Breast Cancer or Wine
+                        <input type="checkbox" name="s1" onclick="add_mark(this, 0.25, 'mrk1')">
+                        <input type="checkbox" name="s1" onclick="add_mark(this, 0.25, 'mrk1')">
+                        <input type="checkbox" name="s1" onclick="add_mark(this, 0.25, 'mrk1')">
+                        <input type="checkbox" name="s1" onclick="add_mark(this, 0.25, 'mrk1')">
+                    </span>
+                    <textarea class="col-md-5 brown_bold" placeholder="no comment"></textarea>
+                </div>
+                <div class="col-md-12">
+                    <span class="col-md-6">
+                        <input type="checkbox" onclick="mark_all(this, 's2')">
+                        <span style="color:brown;">[1.0 mark]</span> User is able to select a classifier for K Nearest Neighbours or Support Vector Machine.
+                        <input type="checkbox" name="s2" onclick="add_mark(this, 0.25, 'mrk1')">
+                        <input type="checkbox" name="s2" onclick="add_mark(this, 0.25, 'mrk1')">
+                        <input type="checkbox" name="s2" onclick="add_mark(this, 0.25, 'mrk1')">
+                        <input type="checkbox" name="s2" onclick="add_mark(this, 0.25, 'mrk1')">
+                    </span>
+                    <textarea class="col-md-5 brown_bold" placeholder="no comment"></textarea>
+                </div>
+                <div class="col-md-12">
+                    <span class="col-md-6">
+                        <input type="checkbox" onclick="mark_all(this, 's3')">
+                        <span style="color:brown;">[1.0 mark]</span> User is able to select a value (3, 5, 7 or more) for K-Fold
+                        <input type="checkbox" name="s3" onclick="add_mark(this, 0.25, 'mrk1')">
+                        <input type="checkbox" name="s3" onclick="add_mark(this, 0.25, 'mrk1')">
+                        <input type="checkbox" name="s3" onclick="add_mark(this, 0.25, 'mrk1')">
+                        <input type="checkbox" name="s3" onclick="add_mark(this, 0.25, 'mrk1')">
+                    </span>
+                    <textarea class="col-md-5 brown_bold" placeholder="no comment"></textarea>
+                </div>
+                <div class="col-md-12">
+                    <span class="col-md-6">
+                        <input type="checkbox" onclick="mark_all(this, 's4')">
+                        <span style="color:brown;">[0.5 mark]</span> User is able to run the entire classification system by clicking a button or a similar widget
+                        <input type="checkbox" name="s4" onclick="add_mark(this, 0.25, 'mrk1')">
+                        <input type="checkbox" name="s4" onclick="add_mark(this, 0.25, 'mrk1')">
+                        <input type="checkbox" name="s4" onclick="add_mark(this, 0.25, 'mrk1')">
+                        <input type="checkbox" name="s4" onclick="add_mark(this, 0.25, 'mrk1')">
+                    </span>
+                    <textarea class="col-md-5 brown_bold" placeholder="no comment"></textarea>
+                </div>
+                <div class="col-md-12">
+                    <hr />
+                </div>
+            </div>
+
+            <div>
+                <div class="col-md-12">
+                    <p>
+                        <span class="brown_bold">
+                            Read data set files and partition them to training and testing sets - Mark (out of 1):
+                        </span>
+                        <input class="brown_bold" id="mrk2" type="number" value="0.0" step="0.1" min="0" max="1" onclick="get_total_mark()" onchange="get_total_mark()" />
+                    </p>
+                </div>
+                <div class="col-md-12">
+                    <span class="col-md-6">
+                        <input type="checkbox" onclick="mark_all(this, 's5')">
+                        <span style="color:brown;">[1.0 mark]</span> The system can load data for Iris, Breast Cancer or Wine from sklearn
+                        <input type="checkbox" name="s5" onclick="add_mark(this, 0.25, 'mrk2')">
+                        <input type="checkbox" name="s5" onclick="add_mark(this, 0.25, 'mrk2')">
+                        <input type="checkbox" name="s5" onclick="add_mark(this, 0.25, 'mrk2')">
+                        <input type="checkbox" name="s5" onclick="add_mark(this, 0.25, 'mrk2')">
+                    </span>
+                    <textarea class="col-md-5 brown_bold" placeholder="no comment"></textarea>
+                </div>
+                <div class="col-md-12">
+                    <hr />
+                </div>
+            </div>
+
+            <div>
+                <div class="col-md-12">
+                    <p>
+                        <span class="brown_bold">
+                            Cross validation and best parameter selection - Mark (out of 5):
+                        </span>
+                        <input class="brown_bold" id="mrk3" type="number" value="0.0" step="0.1" min="0" max="5" onclick="get_total_mark()" onchange="get_total_mark()" />
+                    </p>
+                </div>
+                <div class="col-md-12">
+                    <span class="col-md-6">
+                        <input type="checkbox" onclick="mark_all(this, 's6')">
+                        <span style="color:brown;">[1.0 mark]</span> The system can run cross validation with selected K Fold value
+                        <input type="checkbox" name="s6" onclick="add_mark(this, 0.25, 'mrk3')">
+                        <input type="checkbox" name="s6" onclick="add_mark(this, 0.25, 'mrk3')">
+                        <input type="checkbox" name="s6" onclick="add_mark(this, 0.25, 'mrk3')">
+                        <input type="checkbox" name="s6" onclick="add_mark(this, 0.25, 'mrk3')">
+                    </span>
+                    <textarea class="col-md-5 brown_bold" placeholder="no comment"></textarea>
+                </div>
+                <div class="col-md-12">
+                    <span class="col-md-6">
+                        <input type="checkbox" onclick="mark_all(this, 's7')">
+                        <span style="color:brown;">[1.0 mark]</span> The system can run cross validation with selected score (accuracy)
+                        <input type="checkbox" name="s7" onclick="add_mark(this, 0.25, 'mrk3')">
+                        <input type="checkbox" name="s7" onclick="add_mark(this, 0.25, 'mrk3')">
+                        <input type="checkbox" name="s7" onclick="add_mark(this, 0.25, 'mrk3')">
+                        <input type="checkbox" name="s7" onclick="add_mark(this, 0.25, 'mrk3')">
+                    </span>
+                    <textarea class="col-md-5 brown_bold" placeholder="no comment"></textarea>
+                </div>
+                <div class="col-md-12">
+                    <span class="col-md-6">
+                        <input type="checkbox" onclick="mark_all(this, 's8')">
+                        <span style="color:brown;">[1.0 mark]</span> The system can run cross validation with selected parameter values (n_neighbours or gamma or C)
+                        <input type="checkbox" name="s8" onclick="add_mark(this, 0.25, 'mrk3')">
+                        <input type="checkbox" name="s8" onclick="add_mark(this, 0.25, 'mrk3')">
+                        <input type="checkbox" name="s8" onclick="add_mark(this, 0.25, 'mrk3')">
+                        <input type="checkbox" name="s8" onclick="add_mark(this, 0.25, 'mrk3')">
+                    </span>
+                    <textarea class="col-md-5 brown_bold" placeholder="no comment"></textarea>
+                </div>
+                <div class="col-md-12">
+                    <span class="col-md-6">
+                        <input type="checkbox" onclick="mark_all(this, 's9')">
+                        <span style="color:brown;">[1.0 mark]</span> The system can find best parameter value for classifier and output plot for score (accuracy) vs parameter value
+                        <input type="checkbox" name="s9" onclick="add_mark(this, 0.25, 'mrk3')">
+                        <input type="checkbox" name="s9" onclick="add_mark(this, 0.25, 'mrk3')">
+                        <input type="checkbox" name="s9" onclick="add_mark(this, 0.25, 'mrk3')">
+                        <input type="checkbox" name="s9" onclick="add_mark(this, 0.25, 'mrk3')">
+                    </span>
+                    <textarea class="col-md-5 brown_bold" placeholder="no comment"></textarea>
+                </div>
+                <div class="col-md-12">
+                    <span class="col-md-6">
+                        <input type="checkbox" onclick="mark_all(this, 's10')">
+                        <span style="color:brown;">[1.0 mark]</span> The system can output confusion matrix
+                        <input type="checkbox" name="s10" onclick="add_mark(this, 0.25, 'mrk3')">
+                        <input type="checkbox" name="s10" onclick="add_mark(this, 0.25, 'mrk3')">
+                        <input type="checkbox" name="s10" onclick="add_mark(this, 0.25, 'mrk3')">
+                        <input type="checkbox" name="s10" onclick="add_mark(this, 0.25, 'mrk3')">
+                    </span>
+                    <textarea class="col-md-5 brown_bold" placeholder="no comment"></textarea>
+                </div>
+                <div class="col-md-12">
+                    <hr />
+                </div>
+            </div>
+
+            <div>
+                <div class="col-md-12">
+                    <p>
+                        <span class="brown_bold">
+                            Training and testing - Mark (out of 5):
+                        </span>
+                        <input class="brown_bold" id="mrk4" type="number" value="0.0" step="0.1" min="0" max="5" onclick="get_total_mark()" onchange="get_total_mark()" />
+                    </p>
+                </div>
+                <div class="col-md-12">
+                    <span class="col-md-6">
+                        <input type="checkbox" onclick="mark_all(this, 's11')">
+                        <span style="color:brown;">[1.0 mark]</span> The system correctly partitions dataset into training and testing sets
+                        <input type="checkbox" name="s11" onclick="add_mark(this, 0.25, 'mrk4')">
+                        <input type="checkbox" name="s11" onclick="add_mark(this, 0.25, 'mrk4')">
+                        <input type="checkbox" name="s11" onclick="add_mark(this, 0.25, 'mrk4')">
+                        <input type="checkbox" name="s11" onclick="add_mark(this, 0.25, 'mrk4')">
+                    </span>
+                    <textarea class="col-md-5 brown_bold" placeholder="no comment"></textarea>
+                </div>
+                <div class="col-md-12">
+                    <span class="col-md-6">
+                        <input type="checkbox" onclick="mark_all(this, 's12')">
+                        <span style="color:brown;">[1.0 mark]</span> The system correctly partitions the training set for cross validation
+                        <input type="checkbox" name="s12" onclick="add_mark(this, 0.25, 'mrk4')">
+                        <input type="checkbox" name="s12" onclick="add_mark(this, 0.25, 'mrk4')">
+                        <input type="checkbox" name="s12" onclick="add_mark(this, 0.25, 'mrk4')">
+                        <input type="checkbox" name="s12" onclick="add_mark(this, 0.25, 'mrk4')">
+                    </span>
+                    <textarea class="col-md-5 brown_bold" placeholder="no comment"></textarea>
+                </div>
+                <div class="col-md-12">
+                    <span class="col-md-6">
+                        <input type="checkbox" onclick="mark_all(this, 's13')">
+                        <span style="color:brown;">[1.0 mark]</span> The system can get best parameter value from cross validation for classifier to train the training set
+                        <input type="checkbox" name="s13" onclick="add_mark(this, 0.25, 'mrk4')">
+                        <input type="checkbox" name="s13" onclick="add_mark(this, 0.25, 'mrk4')">
+                        <input type="checkbox" name="s13" onclick="add_mark(this, 0.25, 'mrk4')">
+                        <input type="checkbox" name="s13" onclick="add_mark(this, 0.25, 'mrk4')">
+                    </span>
+                    <textarea class="col-md-5 brown_bold" placeholder="no comment"></textarea>
+                </div>
+                <div class="col-md-12">
+                    <span class="col-md-6">
+                        <input type="checkbox" onclick="mark_all(this, 's14')">
+                        <span style="color:brown;">[1.0 mark]</span> The system can predict classes in cross validation
+                        <input type="checkbox" name="s14" onclick="add_mark(this, 0.25, 'mrk4')">
+                        <input type="checkbox" name="s14" onclick="add_mark(this, 0.25, 'mrk4')">
+                        <input type="checkbox" name="s14" onclick="add_mark(this, 0.25, 'mrk4')">
+                        <input type="checkbox" name="s14" onclick="add_mark(this, 0.25, 'mrk4')">
+                    </span>
+                    <textarea class="col-md-5 brown_bold" placeholder="no comment"></textarea>
+                </div>
+                <div class="col-md-12">
+                    <span class="col-md-6">
+                        <input type="checkbox" onclick="mark_all(this, 's15')">
+                        <span style="color:brown;">[1.0 mark]</span> The system can predict classes for testing dataset
+                        <input type="checkbox" name="s15" onclick="add_mark(this, 0.25, 'mrk4')">
+                        <input type="checkbox" name="s15" onclick="add_mark(this, 0.25, 'mrk4')">
+                        <input type="checkbox" name="s15" onclick="add_mark(this, 0.25, 'mrk4')">
+                        <input type="checkbox" name="s15" onclick="add_mark(this, 0.25, 'mrk4')">
+                    </span>
+                    <textarea class="col-md-5 brown_bold" placeholder="no comment"></textarea>
+                </div>
+                <div class="col-md-12">
+                    <hr />
+                </div>
+            </div>
+
+            <div>
+                <div class="col-md-12">
+                    <p>
+                        <span class="brown_bold">
+                            Outputs - Mark (out of 4):
+                        </span>
+                        <input class="brown_bold" id="mrk5" type="number" value="0.0" step="0.1" min="0" max="4" onclick="get_total_mark()" onchange="get_total_mark()" />
+                    </p>
+                </div>
+                <div class="col-md-12">
+                    <span class="col-md-6">
+                        <input type="checkbox" onclick="mark_all(this, 's16')">
+                        <span style="color:brown;">[1.0 mark]</span> The system outputs correct best parameter value
+                        <input type="checkbox" name="s16" onclick="add_mark(this, 0.25, 'mrk5')">
+                        <input type="checkbox" name="s16" onclick="add_mark(this, 0.25, 'mrk5')">
+                        <input type="checkbox" name="s16" onclick="add_mark(this, 0.25, 'mrk5')">
+                        <input type="checkbox" name="s16" onclick="add_mark(this, 0.25, 'mrk5')">
+                    </span>
+                    <textarea class="col-md-5 brown_bold" placeholder="no comment"></textarea>
+                </div>
+                <div class="col-md-12">
+                    <span class="col-md-6">
+                        <input type="checkbox" onclick="mark_all(this, 's17')">
+                        <span style="color:brown;">[1.0 mark]</span> The system outputs correct class prediction for testing set
+                        <input type="checkbox" name="s17" onclick="add_mark(this, 0.25, 'mrk5')">
+                        <input type="checkbox" name="s17" onclick="add_mark(this, 0.25, 'mrk5')">
+                        <input type="checkbox" name="s17" onclick="add_mark(this, 0.25, 'mrk5')">
+                        <input type="checkbox" name="s17" onclick="add_mark(this, 0.25, 'mrk5')">
+                    </span>
+                    <textarea class="col-md-5 brown_bold" placeholder="no comment"></textarea>
+                </div>
+                <div class="col-md-12">
+                    <span class="col-md-6">
+                        <input type="checkbox" onclick="mark_all(this, 's18')">
+                        <span style="color:brown;">[1.0 mark]</span> The system outputs correct accuracy score
+                        <input type="checkbox" name="s18" onclick="add_mark(this, 0.25, 'mrk5')">
+                        <input type="checkbox" name="s18" onclick="add_mark(this, 0.25, 'mrk5')">
+                        <input type="checkbox" name="s18" onclick="add_mark(this, 0.25, 'mrk5')">
+                        <input type="checkbox" name="s18" onclick="add_mark(this, 0.25, 'mrk5')">
+                    </span>
+                    <textarea class="col-md-5 brown_bold" placeholder="no comment"></textarea>
+                </div>
+                <div class="col-md-12">
+                    <span class="col-md-6">
+                        <input type="checkbox" onclick="mark_all(this, 's19')">
+                        <span style="color:brown;">[1.0 mark]</span> The system outputs correct values on confusion matrix
+                        <input type="checkbox" name="s19" onclick="add_mark(this, 0.25, 'mrk5')">
+                        <input type="checkbox" name="s19" onclick="add_mark(this, 0.25, 'mrk5')">
+                        <input type="checkbox" name="s19" onclick="add_mark(this, 0.25, 'mrk5')">
+                        <input type="checkbox" name="s19" onclick="add_mark(this, 0.25, 'mrk5')">
+                    </span>
+                    <textarea class="col-md-5 brown_bold" placeholder="no comment"></textarea>
+                </div>
+            </div>
+            <div>
+                <div class="col-md-12">
+                    <p>
+                        <span class="brown_bold">
+                            Overall - Mark (out of 1):
+                        </span>
+                        <input class="brown_bold" id="mrk6" type="number" value="0.0" step="0.1" min="0" max="1" onclick="get_total_mark()" onchange="get_total_mark()" />
+                    </p>
+                </div>
+                <div class="col-md-12">
+                    <span class="col-md-6">
+                        <input type="checkbox" onclick="mark_all(this, 's20')">
+                        <span style="color:brown;">[1.0 mark]</span> The GUI design is easy to use and outputs are easy to read and no exception at runtime
+                        <input type="checkbox" name="s20" onclick="add_mark(this, 0.25, 'mrk6')">
+                        <input type="checkbox" name="s20" onclick="add_mark(this, 0.25, 'mrk6')">
+                        <input type="checkbox" name="s20" onclick="add_mark(this, 0.25, 'mrk6')">
+                        <input type="checkbox" name="s20" onclick="add_mark(this, 0.25, 'mrk6')">
+                    </span>
+                    <textarea class="col-md-5 brown_bold" placeholder="no comment"></textarea>
+                </div>
+                <div class="col-md-12">
+                    <hr />
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <textarea class="col-md-11" rows="3" placeholder="no comment" value=""></textarea>
+            </div>
+
+        </div>
+        <div class="col-md-12">
+            <h4 style="font-weight:bold; color:brown;">Please use contact details given above if you have questions and concerns on your mark. <br /> Please contact me if there is error on this marking rubric. Thanks. Dat Tran (dat.tran@canberra.edu.au).</h4>
+        </div>
+
+    </div>
+</body>
+</html>
