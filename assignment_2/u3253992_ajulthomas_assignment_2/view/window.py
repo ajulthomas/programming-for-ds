@@ -6,9 +6,9 @@ Created on Sat Oct 21 18:26:23 2023
 """
 
 import tkinter as tk
-from menu import Menu
-from main import Main
-
+from view.menu import Menu
+from view.main import Main
+import controller.app_controller as app
 
 class Window(tk.Tk):
     
@@ -31,5 +31,15 @@ class Window(tk.Tk):
         # run the ui
         self.mainloop()
         
-    def run_algorithms(self):
-        pass
+    def run_algorithms(self, event):
+        # chosen dataset value
+        cd = self.chosen_dataset.get()
+        
+        # chosen classification algorithm
+        ca = self.chosen_algorithm.get()
+        
+        print(event)
+        print(f"Running algorithms with dataset = {cd}, algorithm = {ca}")
+        
+        # calling the controller functions to initiate modelling of data
+        app.initiate_analysis(cd, ca)
