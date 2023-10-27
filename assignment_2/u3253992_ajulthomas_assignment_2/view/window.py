@@ -23,6 +23,7 @@ class Window(tk.Tk):
         # variable to hold the dataset input by the user
         self.chosen_dataset = tk.IntVar()
         self.chosen_algorithm = tk.IntVar()
+        self.results = {}
         
         # add widgets
         self.menu = Menu(self)
@@ -38,8 +39,14 @@ class Window(tk.Tk):
         # chosen classification algorithm
         ca = self.chosen_algorithm.get()
         
+        # clear previous results
+        self.results = {}
+        
         print(event)
         print(f"Running algorithms with dataset = {cd}, algorithm = {ca}")
         
         # calling the controller functions to initiate modelling of data
-        app.initiate_analysis(cd, ca)
+        self.results = app.create_ml_model(cd, ca)
+        
+        # plot results in main window
+        self.main.display_results(self.chosen_algorithm.get(), self.results)

@@ -23,7 +23,7 @@ class Menu(ttk.Frame):
         s.map('menu.TButton', background=[('active',config.BUTTON_BACKGROUND)])
         
         super().__init__(parent, style="menu.TFrame")
-        self.place(x = 0, y = 0, relwidth = 0.3, relheight = 1)
+        self.place(x = 0, y = 0, relwidth = 0.2, relheight = 1)
         
         self.columnconfigure((0,1,2), weight = 1, uniform = 'a')
         self.rowconfigure((0,1,2,3,4,5,6,7,8,9,10), weight = 1, uniform = 'a')

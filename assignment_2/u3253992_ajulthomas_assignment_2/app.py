@@ -19,4 +19,4 @@ Created on Sat Oct 21 19:15:37 2023
 
 import view.window as ui
 
-app_ui = ui.Window('Assignment 2 - Classification in Data Science', (1920,1080))
+app_ui = ui.Window('Assignment 2 - Classification in Data Science', (1366,768))

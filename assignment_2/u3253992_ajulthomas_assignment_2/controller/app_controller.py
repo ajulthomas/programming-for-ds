@@ -19,7 +19,7 @@ from sklearn import datasets, metrics, mixture
 
 
 # starting point of the modelling process
-def initiate_analysis(chosen_dataset, chosen_algorithm, cv=5):
+def create_ml_model(chosen_dataset, chosen_algorithm, cv=5):
     
     # get the right dataset
     dataset = get_chosen_dataset(chosen_dataset)
@@ -37,7 +37,7 @@ def initiate_analysis(chosen_dataset, chosen_algorithm, cv=5):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state= 17)
     
     # load grid search cross validation
-    gscv_classifier = GridSearchCV(model, param_grid, cv=cv, scoring="accuracy", n_jobs= -1, verbose=1)
+    gscv_classifier = GridSearchCV(model, param_grid, cv=cv, scoring="accuracy", n_jobs= -1, verbose=1, refit=True)
     
     # fit the model
     gscv_classifier.fit(X_train, y_train)
@@ -53,9 +53,30 @@ def initiate_analysis(chosen_dataset, chosen_algorithm, cv=5):
     cm = metrics.confusion_matrix(y_test, y_pred)
     print(cm)
     
+    cm_visualize = metrics.ConfusionMatrixDisplay(cm, display_labels= dataset.target_names)
+    
     # print GridSearchCV results 
     gscv_results = gscv_classifier.cv_results_
-    print(gscv_results)
+    gscv_results = pd.DataFrame(gscv_results)
+    # print(gscv_results.columns)
+    # print(type(gscv_results))
+    print(gscv_results[['params']])
+    
+    if (chosen_algorithm == 0):
+        gscv_results = gscv_results[['param_n_neighbors','mean_test_score']]
+    else:
+        gscv_results = gscv_results[['param_C', 'param_gamma', 'param_kernel', 'mean_test_score']]
+        
+        
+    # return a dictionary of results and outcomes of the trained model
+    
+    return {
+        'accuracy': accuracy,
+        'best_params': gscv_classifier.best_params_,
+        'best_model': gscv_classifier.best_estimator_,
+        'results': gscv_results,
+        'confusion_matrix': cm_visualize
+        }
     
     # visualize confusion matrix
     
@@ -80,9 +101,13 @@ def get_chosen_dataset(cd):
 # ca = 1, SVC classifier
 def get_chosen_model(ca):
     if(ca == 0):
-        param_grid = {'n_neighbors': [1, 2, 3, 4, 5]}
+        param_grid = {'n_neighbors': range(1,31) }
         return (KNeighborsClassifier(), param_grid)
     else:
-        param_grid = {'C': [0.1,1, 10, 100], 'gamma': [1,0.1,0.01,0.001],'kernel': ['rbf']}
+        param_grid = {
+            'C': [0.1,1, 10, 100],
+            'gamma':[0.000000001, 0.00000001, 0.0000001, 0.000001,0.00001, 0.0001, 0.001, 0.01, 0.1, 1.0],
+            'kernel': ['rbf']
+            }
         return (SVC(), param_grid)
 
