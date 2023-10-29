@@ -23,6 +23,7 @@ class Window(tk.Tk):
         # variable to hold the dataset input by the user
         self.chosen_dataset = tk.IntVar()
         self.chosen_algorithm = tk.IntVar()
+        self.chosen_kfold = tk.IntVar(value=5)
         self.results = {}
         
         # add widgets
@@ -39,14 +40,19 @@ class Window(tk.Tk):
         # chosen classification algorithm
         ca = self.chosen_algorithm.get()
         
+        # chosen kfold value
+        kfold = self.chosen_kfold.get()
+        
         # clear previous results
         self.results = {}
         
-        print(event)
-        print(f"Running algorithms with dataset = {cd}, algorithm = {ca}")
+        # print(event)
+        # print(f"Running algorithms with dataset = {cd}, algorithm = {ca}")
         
         # calling the controller functions to initiate modelling of data
-        self.results = app.create_ml_model(cd, ca)
+        self.results = app.create_ml_model(cd, ca, kfold)
         
         # plot results in main window
         self.main.display_results(self.chosen_algorithm.get(), self.results)
+    ## end of function
+    
